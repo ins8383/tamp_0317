@@ -1,0 +1,2149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>탐프 챌린지 만족도 조사</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Noto+Serif+KR:wght@400;600&display=swap');
+
+  :root {
+    --primary: #2D6A4F;
+    --primary-light: #52B788;
+    --primary-pale: #D8F3DC;
+    --accent: #F4A261;
+    --dark: #1B1F23;
+    --gray-800: #2D3748;
+    --gray-600: #4A5568;
+    --gray-400: #A0AEC0;
+    --gray-100: #F7FAFC;
+    --gray-50: #FAFAFA;
+    --white: #FFFFFF;
+    --border: #E2E8F0;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #F0F4F1;
+    color: var(--dark);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .survey-header {
+    background: linear-gradient(135deg, var(--primary) 0%, #1B4332 100%);
+    color: white;
+    padding: 48px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .survey-header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+
+  .survey-header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -20px;
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    background: rgba(82,183,136,0.15);
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: #B7E4C7;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    padding: 4px 16px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .survey-header h1 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 600;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .survey-header p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.8;
+    position: relative;
+  }
+
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+    height: 4px;
+    margin-top: 32px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--primary-light);
+    border-radius: 4px;
+    width: 0%;
+    transition: width 0.5s ease;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 16px 80px;
+  }
+
+  .section-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .section-header {
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+    padding: 16px 24px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-number {
+    background: rgba(255,255,255,0.2);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .section-header h2 {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  .section-body {
+    padding: 24px;
+  }
+
+  .question-block {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .question-block:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .question-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .q-num {
+    background: var(--primary);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+
+  .q-num.s-type { background: #718096; }
+  .q-num.d-type { background: #975A16; }
+
+  .question-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gray-800);
+    line-height: 1.6;
+  }
+
+  .required-mark {
+    color: #E53E3E;
+    margin-left: 3px;
+  }
+
+  .question-note {
+    font-size: 12px;
+    color: var(--gray-400);
+    margin-top: 4px;
+    font-weight: 400;
+  }
+
+  /* Radio & Checkbox */
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .option-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    background: var(--gray-50);
+  }
+
+  .option-item:hover {
+    border-color: var(--primary-light);
+    background: var(--primary-pale);
+  }
+
+  .option-item input[type="radio"],
+  .option-item input[type="checkbox"] {
+    width: 18px; height: 18px;
+    accent-color: var(--primary);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  .option-item.selected {
+    border-color: var(--primary);
+    background: var(--primary-pale);
+  }
+
+  .option-label {
+    font-size: 14px;
+    color: var(--gray-600);
+    flex: 1;
+  }
+
+  /* Likert Scale */
+  .likert-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .likert-table {
+    width: 100%;
+    min-width: 480px;
+    border-collapse: collapse;
+  }
+
+  .likert-table thead th {
+    padding: 8px 4px;
+    font-size: 11px;
+    color: var(--gray-400);
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .likert-table thead th.item-col {
+    text-align: left;
+    padding-left: 0;
+    color: var(--gray-600);
+    font-weight: 600;
+    font-size: 12px;
+    width: 40%;
+  }
+
+  .likert-table tbody tr {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .likert-table tbody tr:last-child { border-bottom: none; }
+
+  .likert-table tbody td {
+    padding: 12px 4px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .likert-table tbody td.item-name {
+    text-align: left;
+    font-size: 13px;
+    color: var(--gray-700);
+    padding-left: 0;
+    padding-right: 12px;
+    line-height: 1.5;
+  }
+
+  .likert-table tbody input[type="radio"] {
+    width: 18px; height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
+  }
+
+  /* 척도 설명 - 테이블 바로 위 좌우 배치 */
+  .scale-note {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    padding: 0 2px;
+  }
+
+  .scale-note-left {
+    font-size: 11px;
+    font-weight: 600;
+    color: #E53E3E;
+  }
+
+  .scale-note-right {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--primary);
+  }
+
+  /* likert-labels: 테이블 위에 좌우 배치 */
+  .likert-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    padding: 0 2px;
+  }
+
+  .likert-label-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gray-400);
+  }
+
+  .likert-label-text:first-child { color: #E53E3E; }
+  .likert-label-text:last-child  { color: var(--primary); }
+
+  /* Rank table */
+  .rank-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .rank-table th {
+    background: var(--primary-pale);
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 12px;
+    padding: 10px 14px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+
+  .rank-table th.item-th {
+    text-align: left;
+    width: 60%;
+  }
+
+  .rank-table td {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    text-align: center;
+    vertical-align: middle;
+    color: var(--gray-600);
+  }
+
+  .rank-table td.item-td {
+    text-align: left;
+    background: var(--gray-50);
+  }
+
+  .rank-table tr:hover td {
+    background: var(--primary-pale);
+  }
+
+  .rank-table input[type="radio"] {
+    width: 18px; height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
+  }
+
+  /* Rank select */
+  .rank-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .rank-badge {
+    background: var(--primary-pale);
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  select {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: var(--gray-600);
+    background: var(--gray-50);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23A0AEC0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    transition: border-color 0.15s;
+  }
+
+  select:focus { outline: none; border-color: var(--primary-light); }
+
+  /* Text input */
+  textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: var(--gray-600);
+    resize: vertical;
+    min-height: 72px;
+    background: var(--gray-50);
+    transition: border-color 0.15s;
+    line-height: 1.6;
+  }
+
+  textarea:focus { outline: none; border-color: var(--primary-light); background: white; }
+
+  input[type="text"], input[type="tel"] {
+    width: 100%;
+    padding: 11px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: var(--gray-600);
+    background: var(--gray-50);
+    transition: border-color 0.15s;
+  }
+
+  input[type="text"]:focus, input[type="tel"]:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    background: white;
+  }
+
+  input[type="number"] {
+    width: 80px;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: var(--gray-600);
+    background: var(--gray-50);
+  }
+
+  .inline-inputs {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .inline-input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .inline-input-group label {
+    font-size: 13px;
+    color: var(--gray-600);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .conditional-block {
+    background: #FFFBF0;
+    border: 1.5px solid #F6E05E;
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 12px;
+  }
+
+  .conditional-note {
+    font-size: 12px;
+    color: #975A16;
+    font-weight: 500;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .body-measure-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 480px) {
+    .body-measure-grid { grid-template-columns: 1fr; }
+  }
+
+  .measure-card {
+    background: var(--gray-50);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+
+  .measure-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-700);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Submit */
+  .submit-wrap {
+    text-align: center;
+    padding: 40px 0 20px;
+  }
+
+  .submit-btn {
+    background: linear-gradient(135deg, var(--primary) 0%, #1B4332 100%);
+    color: white;
+    border: none;
+    padding: 16px 56px;
+    border-radius: 50px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(45, 106, 79, 0.4);
+    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(45, 106, 79, 0.5);
+  }
+
+  .submit-btn:active { transform: translateY(0); }
+
+  .thank-you-note {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--gray-400);
+  }
+
+  /* Phone */
+  .phone-section {
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .phone-section .emoji { font-size: 32px; margin-bottom: 8px; }
+  .phone-section h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .phone-section p { font-size: 13px; color: var(--gray-400); margin-bottom: 16px; }
+
+  /* Divider label */
+  .sub-section-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 0.3px;
+    margin-bottom: 20px;
+    margin-top: 4px;
+    padding: 10px 14px;
+    background: var(--primary-pale);
+    border-left: 4px solid var(--primary);
+    border-radius: 0 8px 8px 0;
+  }
+
+  /* S4 버튼형 척도 */
+  .s4-button-wrap { display: flex; flex-direction: column; gap: 0; }
+  .s4-scale-header { display: flex; justify-content: space-between; padding: 4px 2px 8px; }
+  .s4-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+  .s4-item:last-child { border-bottom: none; }
+  .s4-gray { background: #F7FAFC; }
+  .s4-highlight { background: #E2E8F0; }
+  .s4-label {
+    font-size: 13px;
+    color: var(--gray-700);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .s4-buttons {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .s4-btn input { display: none; }
+  .s4-btn span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-400);
+    cursor: pointer;
+    transition: all 0.15s;
+    background: white;
+  }
+  .s4-btn input:checked + span {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+  }
+  .s4-btn span:hover {
+    border-color: var(--primary-light);
+    color: var(--primary);
+  }
+
+  .helper-text {
+    font-size: 12px;
+    color: var(--gray-400);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div id="section-nav" style="position:sticky; top:0; z-index:100; background:white; padding:10px 20px; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:space-between; gap:12px;">
+  <button id="prev-btn" onclick="goPrevSection()" style="background:none; border:1.5px solid var(--primary); color:var(--primary); border-radius:8px; padding:6px 16px; font-size:13px; font-weight:600; cursor:pointer; font-family:'Noto Sans KR',sans-serif; display:none;">← 이전</button>
+  <div style="flex:1;">
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--gray-600); margin-bottom:4px;">
+      <span id="section-label">섹션 1 / 5</span>
+      <span id="section-pct">20%</span>
+    </div>
+    <div style="background:#E2E8F0; border-radius:4px; height:6px;">
+      <div id="progress-fill" style="background:var(--primary); border-radius:4px; height:6px; width:20%; transition:width 0.3s;"></div>
+    </div>
+  </div>
+</div>
+
+<div class="survey-header">
+  <div class="header-badge">TAM PRIME CHALLENGE</div>
+  <h1>탐습운 프라임 챌린지 만족도 조사</h1>
+  <p>탐습운 프라임 챌린지(이하 탐프)를 진행하느라 고생이 많으셨습니다. 참여 경험에 대한 만족도 및 건강 상태 변화를 파악하기 위한 설문조사입니다. 조사 결과는 익명으로 처리되며, 향후 탐프 프로그램 개선 및 보고서 자료로 활용될 예정입니다.</p>
+</div>
+
+<div class="container">
+
+  <!-- SECTION I -->
+  <div class="section-card" id="section-1">
+    <div class="section-header">
+      <div class="section-number">I</div>
+      <h2>탐프 시작 전 나의 상태</h2>
+    </div>
+    <div class="section-body">
+
+      <!-- S1 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num s-type">S1</span>
+          <div>
+            <div class="question-text">참여하신 탐프 기수를 선택해 주세요.<span class="required-mark">*</span></div>
+          </div>
+        </div>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="s1" value="1기"><span class="option-label">1기</span></label>
+          <label class="option-item"><input type="radio" name="s1" value="2기"><span class="option-label">2기</span></label>
+        </div>
+      </div>
+
+      <!-- S2 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num s-type">S2</span>
+          <div>
+            <div class="question-text">건강검진에서 혈당 관련 이상 소견을 들어본 적 있으십니까?<span class="required-mark">*</span></div>
+          </div>
+        </div>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="s2" value="예" onchange="toggleS2Sub(this)"><span class="option-label">예</span></label>
+          <label class="option-item"><input type="radio" name="s2" value="아니오" onchange="toggleS2Sub(this)"><span class="option-label">아니오</span></label>
+        </div>
+
+        <div class="conditional-block" id="s2-sub" style="display:none; margin-top:16px;">
+          <div class="conditional-note">📌 S2에서 '예'라고 응답하신 경우 — 해당되는 것을 모두 체크해 주세요.</div>
+          <div class="options-list">
+            <label class="option-item"><input type="checkbox" name="s2_sub" value="공복혈당높음"><span class="option-label">(당뇨는 아니지만) 공복혈당이 높다는 얘기를 들었다</span></label>
+            <label class="option-item"><input type="checkbox" name="s2_sub" value="당화혈색소높음"><span class="option-label">(당뇨는 아니지만) 당화혈색소가 높다는 얘기를 들었다</span></label>
+            <label class="option-item"><input type="checkbox" name="s2_sub" value="전당뇨"><span class="option-label">전당뇨 / 경계성 당뇨 진단을 받았다</span></label>
+            <label class="option-item"><input type="checkbox" name="s2_sub" value="당뇨"><span class="option-label">당뇨 진단을 받았다</span></label>
+            <label class="option-item"><input type="checkbox" name="s2_sub" value="인슐린저항성"><span class="option-label">인슐린 저항성이 있다는 얘기를 들었다</span></label>
+            <label class="option-item"><input type="checkbox" name="s2_sub" value="기타"><span class="option-label">기타</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- S3 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num s-type">S3</span>
+          <div>
+            <div class="question-text"><span style="font-weight:700; text-decoration:underline; color:#2D6A4F;">탐프 시작 이전</span> 본인의 식습관과 생활 방식을 솔직하게 평가해 주세요.<span class="required-mark">*</span></div>
+            <div class="question-note">1점 전혀 그렇지 않다 · 3점 보통 · 5점 매우 그렇다</div>
+          </div>
+        </div>
+        <div class="s4-button-wrap">
+          <div class="s4-scale-header">
+            <span style="color:#E53E3E; font-size:11px; font-weight:600;">전혀 그렇지 않다</span>
+            <span style="color:var(--primary); font-size:11px; font-weight:600;">매우 그렇다</span>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">① 밥, 빵, 면 없이 살 수 없다</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="s4_1" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_1" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_1" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_1" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_1" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">② 스트레스를 받으면 나도 모르게 뭔가를 먹고 있다</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="s4_2" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_2" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_2" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_2" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_2" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">③ 늦은 저녁 시간이나 자기 전에 습관적으로 뭔가를 먹는다</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="s4_3" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_3" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_3" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_3" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_3" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">④ 커피는 주로 라떼나 달달하게 먹는 편이다</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="s4_4" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_4" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_4" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_4" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_4" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">⑤ 집밥보다 외식·배달이 더 많다</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="s4_5" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_5" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_5" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_5" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_5" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">⑥ 점심 식사 후 졸린 적이 많다</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="s4_6" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_6" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_6" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_6" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_6" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">⑦ 단백질보다 탄수화물 위주로 먹는 편이다</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="s4_7" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_7" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_7" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_7" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_7" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">⑧ 체지방을 빼려고 다이어트를 시도해 본 적이 있다</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="s4_8" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_8" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_8" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_8" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_8" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">⑨ 식습관을 바꾸려고 노력했지만 늘 작심삼일로 끝났다</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="s4_9" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_9" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_9" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_9" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_9" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray s4-highlight">
+            <div class="s4-label"><strong>⑩ 평소 나의 식습관은 좋은 편이다</strong></div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="s4_10" value="1" onchange="checkS4Now()"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_10" value="2" onchange="checkS4Now()"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_10" value="3" onchange="checkS4Now()"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_10" value="4" onchange="checkS4Now()"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="s4_10" value="5" onchange="checkS4Now()"><span>5</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S4 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num s-type">S4</span>
+          <div>
+            <div class="question-text">탐프 챌린지 시작 전 가장 기대했던 점은? (2가지 선택)<span class="required-mark">*</span></div>
+          </div>
+        </div>
+        <div class="options-list">
+          <label class="option-item"><input type="checkbox" name="s3" value="혈당개선"><span class="option-label">혈당 개선</span></label>
+          <label class="option-item"><input type="checkbox" name="s3" value="대사지표"><span class="option-label">혈당 이외 대사 지표 개선 (혈압, 고지혈 등)</span></label>
+          <label class="option-item"><input type="checkbox" name="s3" value="체지방감소"><span class="option-label">체지방 감소</span></label>
+          <label class="option-item"><input type="checkbox" name="s3" value="생활습관"><span class="option-label">생활 습관 개선 (만성피로·수면 개선 등)</span></label>
+          <label class="option-item"><input type="checkbox" name="s3" value="위험질환"><span class="option-label">암 등 위험 질환 예방</span></label>
+          <label class="option-item"><input type="checkbox" name="s3" value="기타"><span class="option-label">기타</span></label>
+        </div>
+        <div class="helper-text">최대 2가지를 선택해 주세요.</div>
+      </div>
+
+    <div style="text-align:center; margin:24px 0 8px;">
+      <button type="button" onclick="goNextSection(1, 2)" style="background:var(--primary); color:white; border:none; border-radius:12px; padding:14px 48px; font-size:16px; font-weight:700; cursor:pointer; font-family:'Noto Sans KR',sans-serif;">다음 →</button>
+    </div>
+    </div>
+  </div>
+
+  <!-- SECTION II -->
+  <div class="section-card" id="section-2" style="display:none;">
+    <div class="section-header">
+      <div class="section-number">II</div>
+      <h2>탐프 만족도 및 수행 난이도 평가</h2>
+    </div>
+    <div class="section-body">
+
+      <!-- Q1 -->
+      <div class="question-block">
+        <div class="sub-section-label">탐프 효과 만족도 평가</div>
+        <div class="question-label">
+          <span class="q-num">Q1</span>
+          <div>
+            <div class="question-text">한달 탐프 챌린지, 전반적인 효과에 얼마나 만족하셨습니까?<span class="required-mark">*</span></div>
+            <div class="question-note">1점 매우 불만족 · 3점 보통 · 5점 매우 만족</div>
+          </div>
+        </div>
+        <div class="s4-button-wrap">
+          <div class="s4-scale-header">
+            <span style="color:#E53E3E; font-size:11px; font-weight:600;">매우 불만족</span>
+            <span style="color:var(--primary); font-size:11px; font-weight:600;">매우 만족</span>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">전반적 효과 만족도</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q1" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q1" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q1" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q1" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q1" value="5"><span>5</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q2</span>
+          <div>
+            <div class="question-text">탐프 효과 가운데 가장 핵심적인 요소는 무엇이라고 생각하시나요? 2가지 골라 주세요.</div>
+          </div>
+        </div>
+        <div class="options-list">
+          <label class="option-item"><input type="checkbox" name="q2" value="간헐적단식"><span class="option-label">① 간헐적 단식 (16~18시간)</span></label>
+          <label class="option-item" style="background:#F7FAFC;"><input type="checkbox" name="q2" value="정제탄수제한"><span class="option-label">② 정제탄수 식사 제한 (밥·빵·면 금지)</span></label>
+          <label class="option-item"><input type="checkbox" name="q2" value="단백질채우기"><span class="option-label">③ 하루 단백질양 채우기 (체중×2배 이상)</span></label>
+          <label class="option-item" style="background:#F7FAFC;"><input type="checkbox" name="q2" value="취침전금식"><span class="option-label">④ 취침 전 3시간 금식</span></label>
+          <label class="option-item"><input type="checkbox" name="q2" value="혈당기착용"><span class="option-label">⑤ 연속혈당기 착용 후 실시간 값 확인</span></label>
+          <label class="option-item" style="background:#F7FAFC;"><input type="checkbox" name="q2" value="함께참여"><span class="option-label">⑥ 다른 사람과 함께한 챌린지 참여 (혈당·식단 공유)</span></label>
+        </div>
+        <div class="helper-text">최대 2가지를 선택해 주세요.</div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="question-block">
+        <div class="sub-section-label">전반적 챌린지 수행 난이도</div>
+        <div class="question-label">
+          <span class="q-num">Q3</span>
+          <div>
+            <div class="question-text">한달 동안 탐프 챌린지를 수행하기 전반적으로 어떠셨나요?<span class="required-mark">*</span></div>
+            <div class="question-note">1점 매우 수월했다 · 3점 보통 · 5점 매우 어려웠다</div>
+          </div>
+        </div>
+        <div class="s4-button-wrap">
+          <div class="s4-scale-header">
+            <span style="color:#E53E3E; font-size:11px; font-weight:600;">매우 수월했다</span>
+            <span style="color:var(--primary); font-size:11px; font-weight:600;">매우 어려웠다</span>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">전반적 난이도</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q3" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q3" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q3" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q3" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q3" value="5"><span>5</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+            <!-- Q4 -->
+      <div class="question-block">
+        <div class="sub-section-label">세부 항목별 수행 난이도 평가</div>
+        <div class="question-label">
+          <span class="q-num">Q4</span>
+          <div>
+            <div class="question-text">탐프 챌린지의 세부 각각의 항목을 한달간 수행하기 어떠셨나요?<span class="required-mark">*</span></div>
+            <div class="question-note">1점 매우 수월했다 · 3점 보통 · 5점 매우 어려웠다</div>
+          </div>
+        </div>
+        <div class="s4-button-wrap">
+          <div class="s4-scale-header">
+            <span style="color:#E53E3E; font-size:11px; font-weight:600;">매우 수월했다</span>
+            <span style="color:var(--primary); font-size:11px; font-weight:600;">매우 어려웠다</span>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">① 간헐적 단식 (16~18시간)</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q4_1" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_1" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_1" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_1" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_1" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">② 정제탄수 식사 제한 (밥·빵·면 금지)</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q4_2" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_2" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_2" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_2" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_2" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">③ 하루 단백질양 채우기 (체중 kg × 2배 이상)</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q4_3" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_3" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_3" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_3" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_3" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">④ 취침 전 3시간 금식</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q4_4" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_4" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_4" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_4" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_4" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">⑤ 연속혈당기 착용 후 실시간 값 확인</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q4_5" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_5" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_5" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_5" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_5" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">⑥ 다른 사람과 함께한 챌린지 참여 (혈당·식단 공유)</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q4_6" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_6" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_6" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_6" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q4_6" value="5"><span>5</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q4-1 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q4-1</span>
+          <div>
+            <div class="question-text">그 중에서 가장 힘든 것을 2가지만 고른다면?<span class="required-mark">*</span></div>
+          </div>
+        </div>
+        <div class="options-list">
+          <label class="option-item"><input type="checkbox" name="q4_1_hard" value="간헐적단식" onchange="checkQ4Now()"><span class="option-label">① 간헐적 단식 (16~18시간)</span></label>
+          <label class="option-item" style="background:#F7FAFC;"><input type="checkbox" name="q4_1_hard" value="정제탄수제한" onchange="checkQ4Now()"><span class="option-label">② 정제탄수 식사 제한 (밥·빵·면 금지)</span></label>
+          <label class="option-item"><input type="checkbox" name="q4_1_hard" value="단백질채우기" onchange="checkQ4Now()"><span class="option-label">③ 하루 단백질양 채우기 (체중 kg × 2배 이상)</span></label>
+          <label class="option-item" style="background:#F7FAFC;"><input type="checkbox" name="q4_1_hard" value="취침전금식" onchange="checkQ4Now()"><span class="option-label">④ 취침 전 3시간 금식</span></label>
+          <label class="option-item"><input type="checkbox" name="q4_1_hard" value="혈당기확인" onchange="checkQ4Now()"><span class="option-label">⑤ 연속혈당기 착용 후 실시간 결과 확인</span></label>
+          <label class="option-item"><input type="checkbox" name="q4_1_hard" value="함께참여" onchange="checkQ4Now()"><span class="option-label">⑥ 다른 사람과 함께한 챌린지 참여 (혈당·식단 공유)</span></label>
+        </div>
+        <div class="helper-text">최대 2가지를 선택해 주세요.</div>
+      </div>
+
+    <div style="text-align:center; margin:24px 0 8px;">
+      <button type="button" onclick="goNextSection(2, 3)" style="background:var(--primary); color:white; border:none; border-radius:12px; padding:14px 48px; font-size:16px; font-weight:700; cursor:pointer; font-family:'Noto Sans KR',sans-serif;">다음 →</button>
+    </div>
+    </div>
+  </div>
+
+  <!-- SECTION III -->
+  <div class="section-card" id="section-3" style="display:none;">
+    <div class="section-header">
+      <div class="section-number">III</div>
+      <h2>탐프 일상생활 영향력 및 연속혈당기 착용 경험</h2>
+    </div>
+    <div class="section-body">
+
+      <!-- Q5 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q5</span>
+          <div>
+            <div class="question-text">탐프 챌린지를 한달간 수행할 때, 일상생활은 어떠셨나요?<span class="required-mark">*</span></div>
+            <div class="question-note">1점 매우 수월했다 · 3점 보통 · 5점 매우 어려웠다</div>
+          </div>
+        </div>
+        <div class="s4-button-wrap">
+          <div class="s4-scale-header">
+            <span style="color:#E53E3E; font-size:11px; font-weight:600;">매우 수월했다</span>
+            <span style="color:var(--primary); font-size:11px; font-weight:600;">매우 어려웠다</span>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">① 회식·외식 자리에서 식단을 지키는 것</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q5_1" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_1" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_1" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_1" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_1" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">② 외식 메뉴 및 식당을 선택하는 것</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q5_2" value="1" onchange="checkQ5Sub(1)"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_2" value="2" onchange="checkQ5Sub(2)"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_2" value="3" onchange="checkQ5Sub(3)"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_2" value="4" onchange="checkQ5Sub(4)"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_2" value="5" onchange="checkQ5Sub(5)"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">③ 카페·디저트 자리에서 음료·간식을 참는 것</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q5_3" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_3" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_3" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_3" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_3" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">④ 가족과의 식사 시간·메뉴가 달라 조율하는 것</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q5_4" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_4" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_4" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_4" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_4" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">⑤ 달라진 식습관에 대한 주변의 시선과 반응</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q5_5" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_5" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_5" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_5" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_5" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">⑥ 매일 식사를 준비하는 시간과 수고</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q5_6" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_6" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_6" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_6" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_6" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">⑦ 단백질 위주 식단으로 늘어난 식비</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q5_7" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_7" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_7" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_7" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_7" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-highlight">
+            <div class="s4-label"><strong>⑧ 탐프 한달 동안 전반 일상생활</strong></div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q5_0" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_0" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_0" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_0" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q5_0" value="5"><span>5</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="conditional-block" id="q5-sub" style="display:none; margin-top:16px;">
+          <div class="conditional-note" style="font-size:13px; font-weight:700; color:#975A16; margin-bottom:12px;">📌 Q5-1. ② 외식 메뉴 및 식당 선택이 어렵다고 생각하신 이유는 무엇입니까? 2가지만 골라주세요.</div>
+          <div class="options-list">
+            <label class="option-item"><input type="checkbox" name="q5_1_why" value="메뉴구성" onchange="checkQ5Now()"><span class="option-label">외식 메뉴가 밥·빵·면 위주로 구성되어 있다</span></label>
+            <label class="option-item"><input type="checkbox" name="q5_1_why" value="소스설탕" onchange="checkQ5Now()"><span class="option-label">소스·양념에 설탕이 많아 피하기 어렵다</span></label>
+            <label class="option-item"><input type="checkbox" name="q5_1_why" value="단백질찾기어려움" onchange="checkQ5Now()"><span class="option-label">단백질 위주 메뉴를 찾기 어렵다</span></label>
+            <label class="option-item"><input type="checkbox" name="q5_1_why" value="식당없음" onchange="checkQ5Now()"><span class="option-label">식단에 맞는 식당 자체가 많지 않다</span></label>
+            <label class="option-item"><input type="checkbox" name="q5_1_why" value="선택권없음" onchange="checkQ5Now()"><span class="option-label">식당 선택권이 나에게 없을 때가 많다</span></label>
+            <label class="option-item"><input type="checkbox" name="q5_1_why" value="가격비쌈" onchange="checkQ5Now()"><span class="option-label">식단에 맞는 메뉴는 가격이 비싼 편이다</span></label>
+            <label class="option-item"><input type="checkbox" name="q5_1_why" value="기타" onchange="checkQ5Now()"><span class="option-label">기타</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q6</span>
+          <div>
+            <div class="question-text">착용한 연속혈당기 브랜드는 무엇입니까? (중복 선택)<span class="required-mark">*</span></div>
+          </div>
+        </div>
+        <div class="options-list">
+          <label class="option-item"><input type="checkbox" name="q6" value="덱스콤"><span class="option-label">덱스콤</span></label>
+          <label class="option-item"><input type="checkbox" name="q6" value="케어센스"><span class="option-label">케어센스</span></label>
+          <label class="option-item"><input type="checkbox" name="q6" value="바로잰"><span class="option-label">바로잰</span></label>
+          <label class="option-item"><input type="checkbox" name="q6" value="기타"><span class="option-label">기타</span></label>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q7</span>
+          <div>
+            <div class="question-text">혈당기 부착 및 착용 시 어떠셨나요?</div>
+          </div>
+        </div>
+        <div style="font-size:12px; font-weight:600; color:var(--primary); margin-bottom:8px;">부착 시 통증</div>
+        <div class="options-list" style="margin-bottom:16px;">
+          <label class="option-item"><input type="radio" name="q7_pain" value="전혀안아픔"><span class="option-label">부착 시 전혀 아프지 않았다</span></label>
+          <label class="option-item" style="background:#F7FAFC;"><input type="radio" name="q7_pain" value="잠시따끔"><span class="option-label">부착 시 잠시 따끔했지만 금방 괜찮아졌다</span></label>
+          <label class="option-item"><input type="radio" name="q7_pain" value="많이아팠다"><span class="option-label">부착 시 생각보다 많이 아팠다</span></label>
+        </div>
+        <div style="font-size:12px; font-weight:600; color:var(--primary); margin-bottom:8px;">착용 중 불편함</div>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="q7_comfort" value="불편없음"><span class="option-label">착용 중 일상생활에 불편함이 없었다</span></label>
+          <label class="option-item" style="background:#F7FAFC;"><input type="radio" name="q7_comfort" value="불편있음"><span class="option-label">착용 중 일상생활에 불편함이 있었다</span></label>
+        </div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q8</span>
+          <div>
+            <div class="question-text">혈당기 사용 경험은 어떠셨나요?<span class="required-mark">*</span></div>
+            <div class="question-note">1점 전혀 그렇지 않다 · 3점 보통 · 5점 매우 그렇다</div>
+          </div>
+        </div>
+        <div class="s4-button-wrap">
+          <div class="s4-scale-header">
+            <span style="color:#E53E3E; font-size:11px; font-weight:600;">전혀 그렇지 않다</span>
+            <span style="color:var(--primary); font-size:11px; font-weight:600;">매우 그렇다</span>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">① 혈당 수치가 신뢰할 만하다고 느꼈다</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q8_1" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_1" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_1" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_1" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_1" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">② 실시간 혈당 확인이 식단 선택에 도움이 됐다</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q8_2" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_2" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_2" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_2" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_2" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">③ 음식마다 혈당 수치가 오르는 것을 보는 것이 스트레스였다</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q8_3" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_3" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_3" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_3" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_3" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">④ 다른 참여자와 혈당 수치가 비교되는 것이 부담스러웠다</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q8_4" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_4" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_4" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_4" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q8_4" value="5"><span>5</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q8-1 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q8-1</span>
+          <div>
+            <div class="question-text">이번 탐프를 하면서 예상하지 못했는데 혈당 스파이크를 경험했던 상황이 있다면 모두 골라 주세요.<span class="required-mark">*</span></div>
+          </div>
+        </div>
+        <div class="options-list">
+          <label class="option-item"><input type="checkbox" name="q8_1_spike" value="고강도운동"><span class="option-label">① 고강도 운동 중</span></label>
+          <label class="option-item" style="background:#F7FAFC;"><input type="checkbox" name="q8_1_spike" value="스트레스"><span class="option-label">② 스트레스가 심할 때 (발표, 운전 등)</span></label>
+          <label class="option-item"><input type="checkbox" name="q8_1_spike" value="공복탄수"><span class="option-label">③ 공복 후 첫끼에 먹은 야채인데 혈당이 올랐을 때</span></label>
+          <label class="option-item" style="background:#F7FAFC;"><input type="checkbox" name="q8_1_spike" value="익힌채소"><span class="option-label">④ 익힌 채소를 먹었을 때 (예: 당근, 양파 등)</span></label>
+          <label class="option-item"><input type="checkbox" name="q8_1_spike" value="과일"><span class="option-label">⑤ 과일 한 쪽 먹었을 때 (예: 키위, 한라봉 등)</span></label>
+          <label class="option-item" style="background:#F7FAFC;"><input type="checkbox" name="q8_1_spike" value="고구마단호박"><span class="option-label">⑥ 고구마·단호박 등 한 쪽 먹었을 때</span></label>
+          <label class="option-item"><input type="checkbox" name="q8_1_spike" value="수면부족"><span class="option-label">⑦ 수면이 부족한 날</span></label>
+          <label class="option-item" style="background:#F7FAFC;"><input type="checkbox" name="q8_1_spike" value="달지않은음료"><span class="option-label">⑧ 달지 않은 음료 (이온음료 등) 마셨을 때</span></label>
+          <label class="option-item"><input type="checkbox" name="q8_1_spike" value="기타"><span class="option-label">⑨ 기타</span></label>
+        </div>
+      </div>
+
+      <!-- Q8-2/Q8-3 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q8-2 · Q8-3</span>
+          <div>
+            <div class="question-text">혈당 스파이크를 피하기 위한 방법을 아래 표에서 응답해 주세요.<span class="required-mark">*</span></div>
+            <div class="question-note"><strong>Q8-2.</strong> 내가 했던 방법은? (모두) &nbsp;·&nbsp; <strong>Q8-3.</strong> 가장 효과적인 것은? (2가지)</div>
+          </div>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="rank-table">
+            <thead>
+              <tr>
+                <th class="item-th">보기</th>
+                <th>Q8-2<br><small>했던 방법</small></th>
+                <th>Q8-3<br><small>효과적인 것<br>(2가지)</small></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="item-td">① 식후 15~30분 이상 걷기</td><td><input type="checkbox" name="q8_2_method" value="식후걷기" onchange="syncQ83(this, 'q8_3_식후걷기')">  </td><td><input type="checkbox" name="q8_3_best" value="식후걷기" id="q8_3_식후걷기" disabled style="opacity:0.3"></td></tr>
+              <tr style="background:#F7FAFC;"><td class="item-td">② 탄수 먹기 전에 단백질·야채 먼저 먹기</td><td><input type="checkbox" name="q8_2_method" value="단백질야채먼저" onchange="syncQ83(this, 'q8_3_단백질야채먼저')">  </td><td><input type="checkbox" name="q8_3_best" value="단백질야채먼저" id="q8_3_단백질야채먼저" disabled style="opacity:0.3"></td></tr>
+              <tr><td class="item-td">③ 식후 계단 오르기·스쿼트 등 간단한 운동</td><td><input type="checkbox" name="q8_2_method" value="간단운동" onchange="syncQ83(this, 'q8_3_간단운동')">  </td><td><input type="checkbox" name="q8_3_best" value="간단운동" id="q8_3_간단운동" disabled style="opacity:0.3"></td></tr>
+              <tr style="background:#F7FAFC;"><td class="item-td">④ 지방과 함께 탄수 먹기 (빵에 올리브오일·땅콩버터 바르기 등)</td><td><input type="checkbox" name="q8_2_method" value="지방함께" onchange="syncQ83(this, 'q8_3_지방함께')">  </td><td><input type="checkbox" name="q8_3_best" value="지방함께" id="q8_3_지방함께" disabled style="opacity:0.3"></td></tr>
+              <tr><td class="item-td">⑤ 음식의 당지수 확인하고 먹기</td><td><input type="checkbox" name="q8_2_method" value="당지수확인" onchange="syncQ83(this, 'q8_3_당지수확인')">  </td><td><input type="checkbox" name="q8_3_best" value="당지수확인" id="q8_3_당지수확인" disabled style="opacity:0.3"></td></tr>
+              <tr style="background:#F7FAFC;"><td class="item-td">⑥ 복합탄수화물도 가급적 피하기</td><td><input type="checkbox" name="q8_2_method" value="탄수피하기" onchange="syncQ83(this, 'q8_3_탄수피하기')">  </td><td><input type="checkbox" name="q8_3_best" value="탄수피하기" id="q8_3_탄수피하기" disabled style="opacity:0.3"></td></tr>
+              <tr><td class="item-td">⑦ 식전에 식초·레몬즙 희석해서 마시기</td><td><input type="checkbox" name="q8_2_method" value="식초레몬" onchange="syncQ83(this, 'q8_3_식초레몬')">  </td><td><input type="checkbox" name="q8_3_best" value="식초레몬" id="q8_3_식초레몬" disabled style="opacity:0.3"></td></tr>
+              <tr style="background:#F7FAFC;"><td class="item-td">⑧ 식전에 보조제 먼저 먹기 (식이섬유·혈당 보조제 등)</td><td><input type="checkbox" name="q8_2_method" value="보조제" onchange="syncQ83(this, 'q8_3_보조제')">  </td><td><input type="checkbox" name="q8_3_best" value="보조제" id="q8_3_보조제" disabled style="opacity:0.3"></td></tr>
+              <tr><td class="item-td">⑨ 기타</td><td><input type="checkbox" name="q8_2_method" value="기타" onchange="syncQ83(this, 'q8_3_기타')">  </td><td><input type="checkbox" name="q8_3_best" value="기타" id="q8_3_기타" disabled style="opacity:0.3"></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="helper-text">Q8-3은 최대 2가지를 선택해 주세요.</div>
+      </div>
+
+      <!-- Q8-4 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q8-4</span>
+          <div>
+            <div class="question-text">한달 챌린지가 끝난 이후 연속혈당기 착용은 어떻게 할 생각이세요?<span class="required-mark">*</span></div>
+          </div>
+        </div>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="q8_1_plan" value="지속착용"><span class="option-label">바로 이어서 지속 착용할 의향이 있다 (기간 무관)</span></label>
+          <label class="option-item" style="background:#F7FAFC;"><input type="radio" name="q8_1_plan" value="필요시착용"><span class="option-label">필요한 시기에 다시 착용할 의향이 있다</span></label>
+          <label class="option-item"><input type="radio" name="q8_1_plan" value="착용안함"><span class="option-label">착용할 의향이 없다</span></label>
+        </div>
+      </div>
+
+      <!-- Q9 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q9</span>
+          <div>
+            <div class="question-text">혈당기 착용 후 새롭게 발견한 혈당 스파이크 음식 3가지를 적어주세요.</div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div class="inline-input-group"><label>①</label><input type="text" name="q9_1" placeholder="음식명을 입력해 주세요"></div>
+          <div class="inline-input-group"><label>②</label><input type="text" name="q9_2" placeholder="음식명을 입력해 주세요"></div>
+          <div class="inline-input-group"><label>③</label><input type="text" name="q9_3" placeholder="음식명을 입력해 주세요"></div>
+        </div>
+      </div>
+
+    <div style="text-align:center; margin:24px 0 8px;">
+      <button type="button" onclick="goNextSection(3, 4)" style="background:var(--primary); color:white; border:none; border-radius:12px; padding:14px 48px; font-size:16px; font-weight:700; cursor:pointer; font-family:'Noto Sans KR',sans-serif;">다음 →</button>
+    </div>
+    </div>
+  </div>
+
+  <!-- SECTION IV -->
+  <div class="section-card" id="section-4" style="display:none;">
+    <div class="section-header">
+      <div class="section-number">IV</div>
+      <h2>탐프의 체감 효과 및 유지 의향</h2>
+    </div>
+    <div class="section-body">
+
+      <!-- Q10 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q10</span>
+          <div>
+            <div class="question-text">탐프 챌린지 한 달 이후 신체적으로 어떤 변화를 경험하셨나요?<span class="required-mark">*</span></div>
+            <div class="question-note">검사 결과에 기반해도 좋고, 본인이 체감하는 정도로 응답해 주세요.</div>
+            <div class="question-note">1점 전혀 변화 없다 · 3점 보통 · 5점 매우 개선됨</div>
+          </div>
+        </div>
+        <div class="s4-button-wrap">
+          <div class="s4-scale-header">
+            <span style="color:#E53E3E; font-size:11px; font-weight:600;">전혀 변화 없다</span>
+            <span style="color:var(--primary); font-size:11px; font-weight:600;">매우 개선됨</span>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">① 혈당수치 개선</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q10_1" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_1" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_1" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_1" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_1" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">② 체지방 감소</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q10_2" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_2" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_2" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_2" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_2" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">③ 근육량 증가</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q10_3" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_3" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_3" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_3" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_3" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">④ 만성피로 개선</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q10_4" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_4" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_4" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_4" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_4" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">⑤ 수면 질 향상</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q10_5" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_5" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_5" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_5" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_5" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">⑥ 식곤증 개선</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q10_6" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_6" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_6" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_6" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_6" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">⑦ 피부개선</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q10_7" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_7" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_7" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_7" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_7" value="5"><span>5</span></label>
+            </div>
+          </div>
+          <div class="s4-item s4-gray">
+            <div class="s4-label">⑧ 대사지표 개선 (혈압, 고지혈 등)</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q10_8" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_8" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_8" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_8" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q10_8" value="5"><span>5</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q10-1 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q10-1</span>
+          <div>
+            <div class="question-text">가장 긍정적인 효과를 2가지 꼽는다면?<span class="required-mark">*</span></div>
+          </div>
+        </div>
+        <div class="options-list">
+          <label class="option-item"><input type="checkbox" name="q11_best" value="혈당개선"><span class="option-label">혈당수치 개선</span></label>
+          <label class="option-item"><input type="checkbox" name="q11_best" value="체지방감소"><span class="option-label">체지방 감소</span></label>
+          <label class="option-item"><input type="checkbox" name="q11_best" value="근육량증가"><span class="option-label">근육량 증가</span></label>
+          <label class="option-item"><input type="checkbox" name="q11_best" value="만성피로"><span class="option-label">만성피로 개선</span></label>
+          <label class="option-item"><input type="checkbox" name="q11_best" value="수면질"><span class="option-label">수면 질 향상</span></label>
+          <label class="option-item"><input type="checkbox" name="q11_best" value="집중력"><span class="option-label">식곤증 개선</span></label>
+          <label class="option-item"><input type="checkbox" name="q11_best" value="피부"><span class="option-label">피부개선</span></label>
+          <label class="option-item"><input type="checkbox" name="q11_best" value="대사지표"><span class="option-label">대사지표 개선 (혈압, 고지혈 등)</span></label>
+        </div>
+      </div>
+
+      <!-- Q11 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q11</span>
+          <div>
+            <div class="question-text">앞으로도 탐프의 식습관 방식을 유지할 의향이 얼마나 있으십니까?<span class="required-mark">*</span></div>
+            <div class="question-note">1점 전혀 없다 · 3점 보통 · 5점 매우 높다</div>
+          </div>
+        </div>
+        <div class="s4-button-wrap">
+          <div class="s4-scale-header">
+            <span style="color:#E53E3E; font-size:11px; font-weight:600;">전혀 없다</span>
+            <span style="color:var(--primary); font-size:11px; font-weight:600;">매우 높다</span>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">유지 의향</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q12" value="1"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q12" value="2"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q12" value="3"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q12" value="4"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q12" value="5"><span>5</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q12 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q12</span>
+          <div>
+            <div class="question-text">탐프 이후에도 이것만은 꼭 지키겠다 싶은 것은? 순서대로 3가지 골라주세요.<span class="required-mark">*</span></div>
+          </div>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="rank-table">
+            <thead>
+              <tr>
+                <th class="item-th">보기</th>
+                <th>1순위</th>
+                <th>2순위</th>
+                <th>3순위</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="item-td">평균 16시간 이상 단식</td><td><input type="radio" name="q12_rank1" value="단식16시간" onchange="checkQ12Dup()"></td><td><input type="radio" name="q12_rank2" value="단식16시간" onchange="checkQ12Dup()"></td><td><input type="radio" name="q12_rank3" value="단식16시간" onchange="checkQ12Dup()"></td></tr>
+              <tr style="background:#F7FAFC;"><td class="item-td">취침 전 3시간 내 금식</td><td><input type="radio" name="q12_rank1" value="취침전3시간" onchange="checkQ12Dup()"></td><td><input type="radio" name="q12_rank2" value="취침전3시간" onchange="checkQ12Dup()"></td><td><input type="radio" name="q12_rank3" value="취침전3시간" onchange="checkQ12Dup()"></td></tr>
+              <tr><td class="item-td">체중의 2배 이상 단백질 섭취</td><td><input type="radio" name="q12_rank1" value="단백질2배" onchange="checkQ12Dup()"></td><td><input type="radio" name="q12_rank2" value="단백질2배" onchange="checkQ12Dup()"></td><td><input type="radio" name="q12_rank3" value="단백질2배" onchange="checkQ12Dup()"></td></tr>
+              <tr style="background:#F7FAFC;"><td class="item-td">탄수화물 소량 섭취 (정제탄수 줄이고, 복합탄수 위주)</td><td><input type="radio" name="q12_rank1" value="탄수화물조절" onchange="checkQ12Dup()"></td><td><input type="radio" name="q12_rank2" value="탄수화물조절" onchange="checkQ12Dup()"></td><td><input type="radio" name="q12_rank3" value="탄수화물조절" onchange="checkQ12Dup()"></td></tr>
+              <tr><td class="item-td">식전/식후 혈당 반응을 의식하며 먹기 (야채→단백질→탄수 순 등)</td><td><input type="radio" name="q12_rank1" value="혈당의식" onchange="checkQ12Dup()"></td><td><input type="radio" name="q12_rank2" value="혈당의식" onchange="checkQ12Dup()"></td><td><input type="radio" name="q12_rank3" value="혈당의식" onchange="checkQ12Dup()"></td></tr>
+              <tr style="background:#F7FAFC;"><td class="item-td">식단 일지 작성</td><td><input type="radio" name="q12_rank1" value="식단일지" onchange="checkQ12Dup()"></td><td><input type="radio" name="q12_rank2" value="식단일지" onchange="checkQ12Dup()"></td><td><input type="radio" name="q12_rank3" value="식단일지" onchange="checkQ12Dup()"></td></tr>
+              <tr><td class="item-td">유지하고 싶은 것 없음</td><td><input type="radio" name="q12_rank1" value="없음" onchange="checkQ12Dup()"></td><td></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Q13 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q13</span>
+          <div>
+            <div class="question-text">탐프 이후 앞으로 6개월 내 외부에서 간단히 식사할 때 피할 것 같은 메뉴 3가지는?<span class="required-mark">*</span></div>
+          </div>
+        </div>
+        <div class="options-list">
+          <label class="option-item"><input type="checkbox" name="q14" value="라면"><span class="option-label">라면</span></label>
+          <label class="option-item"><input type="checkbox" name="q14" value="칼국수수제비"><span class="option-label">칼국수·수제비</span></label>
+          <label class="option-item"><input type="checkbox" name="q14" value="김밥"><span class="option-label">김밥</span></label>
+          <label class="option-item"><input type="checkbox" name="q14" value="비빔밥덮밥"><span class="option-label">비빔밥·덮밥</span></label>
+          <label class="option-item"><input type="checkbox" name="q14" value="국밥"><span class="option-label">국밥</span></label>
+          <label class="option-item"><input type="checkbox" name="q14" value="떡볶이"><span class="option-label">떡볶이</span></label>
+          <label class="option-item"><input type="checkbox" name="q14" value="튀김순대"><span class="option-label">튀김·순대</span></label>
+          <label class="option-item"><input type="checkbox" name="q14" value="짜장짬뽕"><span class="option-label">짜장면·짬뽕</span></label>
+          <label class="option-item"><input type="checkbox" name="q14" value="파스타"><span class="option-label">파스타</span></label>
+          <label class="option-item"><input type="checkbox" name="q14" value="피자"><span class="option-label">피자</span></label>
+          <label class="option-item"><input type="checkbox" name="q14" value="샌드위치"><span class="option-label">샌드위치</span></label>
+          <label class="option-item"><input type="checkbox" name="q14" value="베이커리"><span class="option-label">베이글·크로와상 등 일반 베이커리</span></label>
+          <label class="option-item"><input type="checkbox" name="q14" value="초밥스시"><span class="option-label">초밥·스시</span></label>
+          <label class="option-item"><input type="checkbox" name="q14" value="기타"><span class="option-label">기타 <input type="text" name="q14_etc" placeholder="직접 입력" style="width:140px; margin-left:8px;"></span></label>
+        </div>
+        <div class="helper-text">최대 3가지를 선택해 주세요.</div>
+      </div>
+
+      <!-- Q14 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q14</span>
+          <div>
+            <div class="question-text">탐프를 주변 분에게 소개할 의향이 얼마나 있으십니까?<span class="required-mark">*</span></div>
+            <div class="question-note">1점 전혀 없다 · 3점 보통 · 5점 매우 있다</div>
+          </div>
+        </div>
+        <div class="s4-button-wrap">
+          <div class="s4-scale-header">
+            <span style="color:#E53E3E; font-size:11px; font-weight:600;">전혀 없다</span>
+            <span style="color:var(--primary); font-size:11px; font-weight:600;">매우 있다</span>
+          </div>
+          <div class="s4-item">
+            <div class="s4-label">소개 의향</div>
+            <div class="s4-buttons">
+              <label class="s4-btn"><input type="radio" name="q15" value="1" onchange="checkQ14Sub(1)"><span>1</span></label>
+              <label class="s4-btn"><input type="radio" name="q15" value="2" onchange="checkQ14Sub(2)"><span>2</span></label>
+              <label class="s4-btn"><input type="radio" name="q15" value="3" onchange="checkQ14Sub(3)"><span>3</span></label>
+              <label class="s4-btn"><input type="radio" name="q15" value="4" onchange="checkQ14Sub(4)"><span>4</span></label>
+              <label class="s4-btn"><input type="radio" name="q15" value="5" onchange="checkQ14Sub(5)"><span>5</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="conditional-block" id="q14-sub" style="display:none; margin-top:16px;">
+          <div class="conditional-note">📌 Q14-1. 탐프를 주변 분에게 한마디로 뭐라고 소개하시겠어요?</div>
+          <textarea name="q15_1" placeholder="간단히 적어 주세요..."></textarea>
+        </div>
+      </div>
+
+      <!-- Q15 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q15</span>
+          <div>
+            <div class="question-text">탐프 챌린지가 가장 필요한 타겟은? 중요한 순서대로 2가지 골라 주세요.<span class="required-mark">*</span></div>
+          </div>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="rank-table">
+            <thead>
+              <tr>
+                <th class="item-th">보기</th>
+                <th>1순위</th>
+                <th>2순위</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="item-td">혈당 및 대사 문제가 걱정되는 사람</td><td><input type="radio" name="q16_rank1" value="혈당걱정"></td><td><input type="radio" name="q16_rank2" value="혈당걱정"></td></tr>
+              <tr><td class="item-td">만성 피로·수면 문제 등 생활문제가 있는 사람</td><td><input type="radio" name="q16_rank1" value="만성피로"></td><td><input type="radio" name="q16_rank2" value="만성피로"></td></tr>
+              <tr><td class="item-td">체지방 감량 및 다이어트를 원하는 사람</td><td><input type="radio" name="q16_rank1" value="체지방감량"></td><td><input type="radio" name="q16_rank2" value="체지방감량"></td></tr>
+              <tr><td class="item-td">식습관을 근본적으로 바꾸고 싶은 사람</td><td><input type="radio" name="q16_rank1" value="식습관변화"></td><td><input type="radio" name="q16_rank2" value="식습관변화"></td></tr>
+              <tr><td class="item-td">기타</td><td><input type="radio" name="q16_rank1" value="기타"></td><td><input type="radio" name="q16_rank2" value="기타"></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Q16 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num">Q16</span>
+          <div>
+            <div class="question-text">앞으로 탐프가 더 좋은 프로그램이 되기 위해 남기고 싶은 한마디가 있으시다면?</div>
+          </div>
+        </div>
+        <textarea name="q17" placeholder="자유롭게 남겨 주세요..."></textarea>
+      </div>
+
+    <div style="text-align:center; margin:24px 0 8px;">
+      <button type="button" onclick="goNextSection(4, 5)" style="background:var(--primary); color:white; border:none; border-radius:12px; padding:14px 48px; font-size:16px; font-weight:700; cursor:pointer; font-family:'Noto Sans KR',sans-serif;">다음 →</button>
+    </div>
+    </div>
+  </div>
+
+  <!-- SECTION V -->
+  <div class="section-card" id="section-5" style="display:none;">
+    <div class="section-header">
+      <div class="section-number">V</div>
+      <h2>기본 정보</h2>
+    </div>
+    <div class="section-body">
+
+      <!-- D1 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num d-type">D1</span>
+          <div><div class="question-text">성별<span class="required-mark">*</span></div></div>
+        </div>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="d1" value="남자"><span class="option-label">남자</span></label>
+          <label class="option-item"><input type="radio" name="d1" value="여자"><span class="option-label">여자</span></label>
+        </div>
+      </div>
+
+      <!-- D2 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num d-type">D2</span>
+          <div><div class="question-text">나이 (한국 나이)<span class="required-mark">*</span></div></div>
+        </div>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="d2" value="30대이하"><span class="option-label">30대 이하</span></label>
+          <label class="option-item"><input type="radio" name="d2" value="40-44"><span class="option-label">40~44세</span></label>
+          <label class="option-item"><input type="radio" name="d2" value="45-49"><span class="option-label">45~49세</span></label>
+          <label class="option-item"><input type="radio" name="d2" value="50-54"><span class="option-label">50~54세</span></label>
+          <label class="option-item"><input type="radio" name="d2" value="55-59"><span class="option-label">55~59세</span></label>
+          <label class="option-item"><input type="radio" name="d2" value="60대"><span class="option-label">60대</span></label>
+          <label class="option-item"><input type="radio" name="d2" value="70대이상"><span class="option-label">70대 이상</span></label>
+        </div>
+      </div>
+
+      <!-- D3 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num d-type">D3</span>
+          <div><div class="question-text">직업<span class="required-mark">*</span></div></div>
+        </div>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="d3" value="직장인일반"><span class="option-label">직장인 (일반 사무직)</span></label>
+          <label class="option-item"><input type="radio" name="d3" value="직장인관리직"><span class="option-label">직장인 (관리직, 임원)</span></label>
+          <label class="option-item"><input type="radio" name="d3" value="자영업프리랜서"><span class="option-label">자영업 / 프리랜서</span></label>
+          <label class="option-item"><input type="radio" name="d3" value="강사교사"><span class="option-label">강사 / 교사</span></label>
+          <label class="option-item"><input type="radio" name="d3" value="주부"><span class="option-label">주부</span></label>
+          <label class="option-item"><input type="radio" name="d3" value="은퇴자"><span class="option-label">은퇴자</span></label>
+          <label class="option-item"><input type="radio" name="d3" value="기타"><span class="option-label">기타</span></label>
+        </div>
+      </div>
+
+      <!-- D4 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num d-type">D4</span>
+          <div><div class="question-text">근력 운동은 주 몇 회 하고 계십니까?<span class="required-mark">*</span></div></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:14px; color:var(--gray-600);">주</span>
+          <input type="number" name="d4" min="0" max="7" placeholder="0" style="width:80px;">
+          <span style="font-size:14px; color:var(--gray-600);">회 (없으면 0)</span>
+        </div>
+      </div>
+
+      <!-- D5 -->
+      <div class="question-block">
+        <div class="question-label">
+          <span class="q-num d-type">D5</span>
+          <div>
+            <div class="question-text">본인의 신체 상태는 탐프 시작 전과 한달 이후 얼마나 달라졌나요?<span class="required-mark">*</span></div>
+            <div class="question-note">검사 결과가 없더라도 본인이 생각하는 기준으로 응답해 주세요.</div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div class="measure-card">
+            <div class="measure-card-title">🏋️ 근육량</div>
+            <div class="s4-button-wrap" style="margin-top:8px;">
+              <div class="s4-scale-header">
+                <span style="color:#E53E3E; font-size:11px; font-weight:600;">매우 적음</span>
+                <span style="color:var(--primary); font-size:11px; font-weight:600;">매우 많음</span>
+              </div>
+              <div class="s4-item">
+                <div class="s4-label">탐프 전</div>
+                <div class="s4-buttons">
+                  <label class="s4-btn"><input type="radio" name="d5_muscle_before" value="1"><span>1</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_muscle_before" value="2"><span>2</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_muscle_before" value="3"><span>3</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_muscle_before" value="4"><span>4</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_muscle_before" value="5"><span>5</span></label>
+                </div>
+              </div>
+              <div class="s4-item s4-gray">
+                <div class="s4-label">한달 후</div>
+                <div class="s4-buttons">
+                  <label class="s4-btn"><input type="radio" name="d5_muscle_after" value="1"><span>1</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_muscle_after" value="2"><span>2</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_muscle_after" value="3"><span>3</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_muscle_after" value="4"><span>4</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_muscle_after" value="5"><span>5</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="measure-card">
+            <div class="measure-card-title">⚖️ 체지방량·체지방율</div>
+            <div class="s4-button-wrap" style="margin-top:8px;">
+              <div class="s4-scale-header">
+                <span style="color:#E53E3E; font-size:11px; font-weight:600;">매우 적음</span>
+                <span style="color:var(--primary); font-size:11px; font-weight:600;">매우 많음</span>
+              </div>
+              <div class="s4-item">
+                <div class="s4-label">탐프 전</div>
+                <div class="s4-buttons">
+                  <label class="s4-btn"><input type="radio" name="d5_fat_before" value="1"><span>1</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_fat_before" value="2"><span>2</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_fat_before" value="3"><span>3</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_fat_before" value="4"><span>4</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_fat_before" value="5"><span>5</span></label>
+                </div>
+              </div>
+              <div class="s4-item s4-gray">
+                <div class="s4-label">한달 후</div>
+                <div class="s4-buttons">
+                  <label class="s4-btn"><input type="radio" name="d5_fat_after" value="1"><span>1</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_fat_after" value="2"><span>2</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_fat_after" value="3"><span>3</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_fat_after" value="4"><span>4</span></label>
+                  <label class="s4-btn"><input type="radio" name="d5_fat_after" value="5"><span>5</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Phone -->
+
+  <div class="phone-section" id="section-6">
+    <div class="emoji">☕</div>
+    <h3>소중한 응답 감사드립니다!</h3>
+    <p>참여해 주신 분께 커피 쿠폰을 드릴 예정입니다.<br>쿠폰 발송을 위해 핸드폰 번호를 남겨주세요.<br><small>※ 번호는 쿠폰 발송 목적으로만 사용되며, 이후 즉시 삭제됩니다.</small></p>
+    <input type="tel" name="phone" placeholder="010-0000-0000" style="max-width:240px; text-align:center;">
+  </div>
+
+
+  <div class="submit-wrap" id="section-7">
+    <button class="submit-btn" onclick="handleSubmit()">설문 제출하기</button>
+    <div class="thank-you-note">응답에 약 10~15분 소요됩니다.</div>
+  </div>
+
+</div>
+
+<script>
+  let currentSection = 1;
+  const totalSections = 5;
+
+  function checkS4Now() {
+    const items = ['s4_1','s4_2','s4_3','s4_4','s4_5','s4_6','s4_7','s4_8','s4_9'];
+    let total = 0, count = 0;
+    items.forEach(name => {
+      const checked = document.querySelector(`input[name="${name}"]:checked`);
+      if (checked) { total += parseInt(checked.value); count++; }
+    });
+    if (count < 9) return;
+    const avg = total / count;
+    const s4_10 = document.querySelector('input[name="s4_10"]:checked');
+    if (!s4_10) return;
+    const score10 = parseInt(s4_10.value);
+    if (avg >= 3.5 && score10 >= 4) {
+      alert('⑩번 응답과 앞의 ①~⑨번 응답이 일치하지 않는 것 같습니다. 다시 한번 검토 부탁드립니다.');
+    }
+  }
+
+  function checkQ4Now() {
+    const mapping = [
+      { q4name: 'q4_1', q41value: '간헐적단식' },
+      { q4name: 'q4_2', q41value: '정제탄수제한' },
+      { q4name: 'q4_3', q41value: '단백질채우기' },
+      { q4name: 'q4_4', q41value: '취침전금식' },
+      { q4name: 'q4_5', q41value: '혈당기확인' },
+      { q4name: 'q4_6', q41value: '함께참여' },
+    ];
+    const conflicts = [];
+    mapping.forEach(m => {
+      const q4 = document.querySelector(`input[name="${m.q4name}"]:checked`);
+      const q41 = document.querySelector(`input[name="q4_1_hard"][value="${m.q41value}"]`);
+      if (q4 && q41 && q41.checked && parseInt(q4.value) <= 2) {
+        conflicts.push(m.q41value);
+      }
+    });
+    if (conflicts.length > 0) {
+      alert('Q4에서 수월했다고 응답한 항목이 Q4-1에 선택되어 있습니다. 다시 한번 응답 내용을 검토해 주세요.');
+    }
+  }
+
+  function checkQ5Now() {
+    const q5_2 = document.querySelector('input[name="q5_2"]:checked');
+    if (!q5_2) return;
+    const score = parseInt(q5_2.value);
+    const anyQ51 = document.querySelectorAll('input[name="q5_1_why"]:checked');
+    if (score <= 2 && anyQ51.length > 0) {
+      alert('Q5-②에서 수월했다고 응답하셨는데 Q5-1에 응답이 있습니다. 다시 한번 응답 내용을 검토해 주세요.');
+    }
+  }
+
+  function checkQ12Dup() {
+    const r1 = document.querySelector('input[name="q12_rank1"]:checked');
+    const r2 = document.querySelector('input[name="q12_rank2"]:checked');
+    const r3 = document.querySelector('input[name="q12_rank3"]:checked');
+    const vals = [r1?.value, r2?.value, r3?.value].filter(Boolean);
+    const unique = new Set(vals);
+    if (vals.length !== unique.size) {
+      alert('1·2·3순위에 동일한 항목이 선택되었습니다. 서로 다른 항목을 선택해 주세요.');
+      // 마지막 선택 취소
+      [r1, r2, r3].forEach(r => {
+        if (r && vals.filter(v => v === r.value).length > 1) r.checked = false;
+      });
+    }
+  }
+
+  function updateProgress(section) {
+    currentSection = section;
+    const pct = Math.round((section / totalSections) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('section-label').textContent = '섹션 ' + section + ' / ' + totalSections;
+    document.getElementById('section-pct').textContent = pct + '%';
+    document.getElementById('prev-btn').style.display = section > 1 ? 'block' : 'none';
+  }
+
+  function goPrevSection() {
+    if (currentSection <= 1) return;
+    const prev = currentSection - 1;
+    updateProgress(prev);
+    const prevSection = document.getElementById('section-' + prev);
+    if (prevSection) prevSection.scrollIntoView({behavior: 'smooth', block: 'start'});
+  }
+
+  function goNextSection(current, next) {
+    const currentSection = document.getElementById('section-' + current);
+    const requiredInputs = currentSection.querySelectorAll('[required]');
+
+    for (let el of requiredInputs) {
+      const name = el.name;
+      if (!name) continue;
+      const inputs = currentSection.querySelectorAll(`[name="${name}"]`);
+      const answered = Array.from(inputs).some(i =>
+        (i.type === 'radio' || i.type === 'checkbox') ? i.checked : i.value.trim() !== ''
+      );
+      if (!answered) {
+        el.closest('.question-block')?.scrollIntoView({behavior: 'smooth', block: 'center'});
+        alert('이 섹션의 모든 필수 항목(*)에 응답해 주세요.');
+        return;
+      }
+    }
+
+    const nextSection = document.getElementById('section-' + next);
+    if (nextSection) {
+      nextSection.style.display = 'block';
+      nextSection.scrollIntoView({behavior: 'smooth', block: 'start'});
+      if (next <= totalSections) updateProgress(next);
+    }
+  }
+
+  function checkQ10Consistency() {
+    const mapping = [
+      { q10name: 'q10_1', q101value: '혈당개선',   label: '① 혈당수치 개선' },
+      { q10name: 'q10_2', q101value: '체지방감소', label: '② 체지방 감소' },
+      { q10name: 'q10_3', q101value: '근육량증가', label: '③ 근육량 증가' },
+      { q10name: 'q10_4', q101value: '만성피로',   label: '④ 만성피로 개선' },
+      { q10name: 'q10_5', q101value: '수면질',     label: '⑤ 수면 질 향상' },
+      { q10name: 'q10_6', q101value: '집중력',     label: '⑥ 집중력·브레인 포그 개선' },
+      { q10name: 'q10_7', q101value: '피부',       label: '⑦ 피부개선' },
+      { q10name: 'q10_8', q101value: '대사지표',   label: '⑧ 대사지표 개선' },
+    ];
+
+    const conflicts = [];
+    mapping.forEach(m => {
+      const q10checked = document.querySelector(`input[name="${m.q10name}"]:checked`);
+      const q101checked = document.querySelector(`input[name="q11_best"][value="${m.q101value}"]`);
+      if (q10checked && q101checked && q101checked.checked) {
+        const score = parseInt(q10checked.value);
+        if (score <= 2) conflicts.push(m.label);
+      }
+    });
+
+    if (conflicts.length > 0) {
+      return confirm(`Q10에서 변화가 없었다고 응답하신 항목이 Q10-1(가장 긍정적인 효과)에 선택되어 있어요.\n\n해당 항목: ${conflicts.join(', ')}\n\n다시 한번 확인하시겠습니까?\n\n[확인] 다시 검토  [취소] 그대로 제출`);
+    }
+    return true;
+  }
+
+  function checkQ4Consistency() {
+    // Q4 각 항목 점수와 Q4-1 매핑
+    const mapping = [
+      { q4name: 'q4_1', q41value: '간헐적단식',   label: '① 간헐적 단식' },
+      { q4name: 'q4_2', q41value: '정제탄수제한', label: '② 정제탄수 식사 제한' },
+      { q4name: 'q4_3', q41value: '단백질채우기', label: '③ 하루 단백질양 채우기' },
+      { q4name: 'q4_4', q41value: '취침전금식',   label: '④ 취침 전 3시간 금식' },
+      { q4name: 'q4_5', q41value: '혈당기확인',   label: '⑤ 연속혈당기 착용' },
+      { q4name: 'q4_6', q41value: '함께참여',     label: '⑥ 다른 사람과 함께 참여' },
+    ];
+
+    const conflicts = [];
+    mapping.forEach(m => {
+      const q4checked = document.querySelector(`input[name="${m.q4name}"]:checked`);
+      const q41checked = document.querySelector(`input[name="q4_1_hard"][value="${m.q41value}"]`);
+      if (q4checked && q41checked && q41checked.checked) {
+        const score = parseInt(q4checked.value);
+        if (score <= 2) conflicts.push(m.label);
+      }
+    });
+
+    if (conflicts.length > 0) {
+      return confirm(`Q4에서 수월했다고 응답하신 항목이 Q4-1(가장 힘든 것)에 선택되어 있어요.\n\n해당 항목: ${conflicts.join(', ')}\n\n다시 한번 확인하시겠습니까?\n\n[확인] 다시 검토  [취소] 그대로 제출`);
+    }
+    return true;
+  }
+
+  function checkS4Consistency() {
+    // ①~⑨ 평균 점수 계산
+    const items = ['s4_1','s4_2','s4_3','s4_4','s4_5','s4_6','s4_7','s4_8','s4_9'];
+    let total = 0, count = 0;
+    items.forEach(name => {
+      const checked = document.querySelector(`input[name="${name}"]:checked`);
+      if (checked) { total += parseInt(checked.value); count++; }
+    });
+    if (count < 9) return true; // 미응답 항목 있으면 패스 (다른 validation에서 처리)
+
+    const avg = total / count;
+    const s4_10 = document.querySelector('input[name="s4_10"]:checked');
+    if (!s4_10) return true;
+    const score10 = parseInt(s4_10.value);
+
+    // ①~⑨ 평균 3.5 이상이고 ⑩번도 4점 이상이면 모순
+    if (avg >= 3.5 && score10 >= 4) {
+      return confirm('⑩번 "평소 나의 식습관은 좋은 편이다"에 높은 점수를 주셨는데, 앞의 ①~⑨번 응답과 일치하지 않는 것 같습니다.\n\n다시 한번 확인하시겠습니까?\n\n[확인] 다시 검토하기  [취소] 그대로 제출');
+    }
+    return true;
+  }
+
+  function syncQ83(cb, targetId) {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    if (cb.checked) {
+      target.disabled = false;
+      target.style.opacity = '1';
+    } else {
+      target.disabled = true;
+      target.checked = false;
+      target.style.opacity = '0.3';
+    }
+  }
+
+  function toggleS2Sub(radio) {
+    const sub = document.getElementById('s2-sub');
+    sub.style.display = radio.value === '예' ? 'block' : 'none';
+  }
+
+  function checkQ14Sub(val) {
+    const sub = document.getElementById('q14-sub');
+    if (sub) sub.style.display = val >= 3 ? 'block' : 'none';
+  }
+
+  function checkQ5Sub(val) {
+    const sub = document.getElementById('q5-sub');
+    sub.style.display = val >= 3 ? 'block' : 'none';
+  }
+
+  // Highlight selected options
+  document.addEventListener('change', function(e) {
+    if (e.target.type === 'radio' || e.target.type === 'checkbox') {
+      const name = e.target.name;
+      if (e.target.type === 'radio') {
+        document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+          input.closest('.option-item') && input.closest('.option-item').classList.remove('selected');
+        });
+        e.target.closest('.option-item') && e.target.closest('.option-item').classList.add('selected');
+      } else {
+        const item = e.target.closest('.option-item');
+        if (item) item.classList.toggle('selected', e.target.checked);
+      }
+    }
+  });
+
+
+  // 체크박스 최대 선택 수 제한
+  function limitCheckbox(name, max) {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"][name="' + name + '"]');
+    const checked = Array.from(checkboxes).filter(c => c.checked);
+    if (checked.length >= max) {
+      checkboxes.forEach(c => {
+        if (!c.checked) {
+          c.disabled = true;
+          c.closest('.option-item') && (c.closest('.option-item').style.opacity = '0.4');
+        }
+      });
+    } else {
+      checkboxes.forEach(c => {
+        c.disabled = false;
+        c.closest('.option-item') && (c.closest('.option-item').style.opacity = '1');
+      });
+    }
+  }
+
+  // 각 체크박스 그룹에 이벤트 적용
+  document.addEventListener('DOMContentLoaded', function() {
+    // 2개 제한 그룹
+    ['s4', 'q2', 'q4_1_hard', 'q11_best', 'q5_1_why', 'q8_3_best'].forEach(function(name) {
+      document.querySelectorAll('input[type="checkbox"][name="' + name + '"]').forEach(function(cb) {
+        cb.addEventListener('change', function() { limitCheckbox(name, 2); });
+      });
+    });
+    // 3개 제한 그룹
+    ['q14'].forEach(function(name) {
+      document.querySelectorAll('input[type="checkbox"][name="' + name + '"]').forEach(function(cb) {
+        cb.addEventListener('change', function() { limitCheckbox(name, 3); });
+      });
+    });
+  });
+
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwfOEFSjreW-VJ-JTPWU4nTv-nK3D5omPoJwYcb9RPeCpMKib0iGJm_GDtPJ1fD6NXShQ/exec';
+
+  function handleSubmit() {
+    // S4 일관성 체크
+    if (!checkS4Consistency()) return;
+    // Q4/Q4-1 일관성 체크
+    if (!checkQ4Consistency()) return;
+    // Q10/Q10-1 일관성 체크
+    if (!checkQ10Consistency()) return;
+    // 필수 항목 체크
+    const required = document.querySelectorAll('[required]');
+    for (let el of required) {
+      const name = el.name;
+      if (!name) continue;
+      const inputs = document.querySelectorAll(`[name="${name}"]`);
+      const answered = Array.from(inputs).some(i => 
+        (i.type === 'radio' || i.type === 'checkbox') ? i.checked : i.value.trim() !== ''
+      );
+      if (!answered) {
+        el.closest('.question-block')?.scrollIntoView({behavior: 'smooth', block: 'center'});
+        alert('모든 필수 항목(*)을 응답해 주세요.');
+        return;
+      }
+    }
+
+    // 데이터 수집
+    const data = {};
+    const formElements = document.querySelectorAll('input, select, textarea');
+    formElements.forEach(el => {
+      if (!el.name) return;
+      if (el.type === 'radio') {
+        if (el.checked) data[el.name] = el.value;
+      } else if (el.type === 'checkbox') {
+        if (el.checked) {
+          data[el.name] = data[el.name] ? data[el.name] + ',' + el.value : el.value;
+        }
+      } else {
+        if (el.value.trim()) data[el.name] = el.value.trim();
+      }
+    });
+
+    // 제출 버튼 비활성화
+    const btn = document.querySelector('.submit-btn');
+    btn.disabled = true;
+    btn.textContent = '제출 중...';
+
+    // Google Sheets로 전송
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    })
+    .then(() => {
+      btn.textContent = '제출 완료 ✓';
+      btn.style.background = '#52B788';
+      document.querySelector('.thank-you-note').textContent = '소중한 응답 감사드립니다! 커피 쿠폰을 곧 발송해 드릴게요 ☕';
+      window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+    })
+    .catch(() => {
+      btn.disabled = false;
+      btn.textContent = '설문 제출하기';
+      alert('제출 중 오류가 발생했습니다. 다시 시도해 주세요.');
+    });
+  }
+</script>
+
+</body>
+</html>
